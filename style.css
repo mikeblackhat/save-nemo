@@ -1,0 +1,939 @@
+html {
+  font-size: 5vh;
+}
+
+@media screen and (min-height: 400px) {
+  html {
+    font-size: 19px;
+  }
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle at center, #649efb 0%, #3e72c4 100%);
+  overflow: hidden;
+  /* Prevent scrolling */
+}
+
+@keyframes swimming {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  22.5% {
+    transform: translateX(2.5rem) skewY(-5deg);
+  }
+
+  45% {
+    transform: translateX(6rem) translateY(-1rem) skewY(5deg);
+  }
+
+  55% {
+    transform: translateX(5rem) translateY(-0.5rem) scaleX(-1);
+  }
+
+  95% {
+    transform: translateX(0) scaleX(-1) skewY(10deg);
+  }
+}
+
+@keyframes dead {
+
+  0%,
+  100% {
+    transform: translateX(2.5rem);
+  }
+
+  22.5% {
+    transform: translateX(2.5rem) translateY(-1rem) skewY(-5deg);
+  }
+
+  45% {
+    transform: translateX(2.5rem) skewY(5deg);
+  }
+
+  55% {
+    transform: translateX(2.5rem) translateY(-1rem) skewY(-5deg);
+  }
+
+  95% {
+    transform: translateX(2.5rem) skewY(5deg);
+  }
+}
+
+.fishbowl {
+  position: relative;
+  width: 15rem;
+  height: 15rem;
+}
+
+.fishbowl__background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 40% 40%;
+  background: linear-gradient(transparent 10%, #FFF 150%);
+  border-bottom: 1px solid #FFF;
+}
+
+.fishbowl:before {
+  content: "";
+  position: absolute;
+  bottom: 9.5rem;
+  left: 2rem;
+  width: 100%;
+  height: 30%;
+  border-radius: 50%;
+  box-shadow: -4rem 10rem 1rem 0 rgba(0, 0, 56, 0.3);
+  transform: rotate(5deg);
+}
+
+.fishbowl:after {
+  content: "";
+  position: absolute;
+  top: 12.5%;
+  left: 2.5%;
+  width: 95%;
+  height: 85%;
+  border-radius: 40%;
+  background: linear-gradient(135deg, transparent 50%, #FFF 150%);
+}
+
+.fishbowl__bottom {
+  position: absolute;
+  bottom: 5%;
+  left: 17.5%;
+  width: 65%;
+  height: 20%;
+  border-radius: 50%;
+  background: linear-gradient(#F5FCCD, #ff7d66 200%);
+}
+
+.fishbowl__decoration {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  width: 90%;
+  height: 75%;
+}
+
+/* Decorations */
+.fishbowl__sand {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 20%;
+  background: #e6c288;
+  border-radius: 0 0 5rem 5rem;
+  z-index: 1;
+}
+
+.fishbowl__rock {
+  position: absolute;
+  background: #7f8c8d;
+  border-radius: 40% 40% 0 0;
+  z-index: 2;
+}
+
+.fishbowl__rock--1 {
+  bottom: 12%;
+  left: 20%;
+  width: 3rem;
+  height: 2.5rem;
+  background: #7f8c8d;
+}
+
+.fishbowl__rock--2 {
+  bottom: 8%;
+  right: 25%;
+  width: 2rem;
+  height: 1.5rem;
+  background: #95a5a6;
+}
+
+.fishbowl__rock--3 {
+  bottom: 10%;
+  right: 15%;
+  width: 1.5rem;
+  height: 1rem;
+  background: #6c7a89;
+}
+
+.fishbowl__seaweed {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-bottom: 5rem solid #80c0a1;
+  z-index: 3;
+  /* Ensure seaweed is above rocks/sand */
+}
+
+.fishbowl__seaweed--1 {
+  bottom: 15%;
+  right: 20%;
+  border-bottom: 5rem solid #80c0a1;
+}
+
+.fishbowl__seaweed--2 {
+  bottom: 10%;
+  right: 30%;
+  border-bottom: 8rem solid #80c0a1;
+}
+
+.fishbowl__seaweed--3 {
+  bottom: 15%;
+  right: 40%;
+  border-bottom: 6rem solid #80c0a1;
+}
+
+.fishbowl__water {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  width: 90%;
+  height: 80%;
+  border-radius: 40% 40% 4.8rem 4.8rem;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.fishbowl__water-color {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(1% * var(--filling, 90));
+  background: linear-gradient(transparent -50%, #419197 250%);
+  border-radius: 20% 20% 4rem 4rem;
+  transition: height 0.5s linear;
+}
+
+.fishbowl__water-color:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 90%;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(transparent 0%, #419197 250%);
+  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+.fishbowl__top {
+  position: absolute;
+  top: 5%;
+  left: 15%;
+  width: 70%;
+  height: 20%;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px 3px rgba(255, 255, 255, 0.3);
+}
+
+.fishbowl__fish {
+  position: absolute;
+  bottom: 25%;
+  left: 18%;
+  width: 2rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, #ff6600 25%, #FFF 25%, #FFF 40%, #ff6600 40%, #ff6600 65%, #FFF 65%, #FFF 80%, #ff6600 80%);
+  box-shadow: 0 2rem 4px -2px rgba(0, 0, 56, 0.3);
+  transition-property: bottom, transform, box-shadow;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  animation: swimming;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  z-index: 10;
+  /* Ensure fish is in front of decorations */
+}
+
+.fishbowl__fish:after {
+  content: "";
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 0 0, #FFF -100%, #12486B);
+  transition: height 0.5s ease;
+}
+
+.fishbowl__fish--dying {
+  bottom: 10%;
+  box-shadow: 0 1rem 4px -2px rgba(0, 0, 56, 0.3);
+}
+
+.fishbowl__fish--dying .fishbowl__fish-tail {
+  box-shadow: 0 1rem 4px -2px rgba(0, 0, 56, 0.3);
+}
+
+.fishbowl__fish--dead {
+  animation: dead;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-fill-mode: forwards;
+  box-shadow: none;
+}
+
+.fishbowl__fish--dead .fishbowl__fish-tail {
+  box-shadow: none;
+}
+
+.fishbowl__fish--dead:after {
+  height: 0.125rem;
+}
+
+.fishbowl__fish--floating {
+  bottom: max(calc(var(--filling, 0) * 1% - 15%), 10%);
+  transform: translateX(2.5rem);
+  animation: none;
+  box-shadow: none;
+}
+
+.fishbowl__fish--floating:after {
+  height: 2px;
+}
+
+.fishbowl__fish--floating .fishbowl__fish-tail {
+  box-shadow: none;
+}
+
+.fishbowl__fish-tail {
+  position: absolute;
+  top: 0;
+  left: -0.75rem;
+  width: 0;
+  height: 0;
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent;
+  border-left: 0.94rem solid #ff6600;
+  box-shadow: 0 2rem 4px -2px rgba(0, 0, 56, 0.3);
+  transition: box-shadow 1s ease;
+}
+
+/* Hunger UI */
+.hunger-container {
+  position: absolute;
+  top: 3rem;
+  /* Below the score */
+  right: 1rem;
+  width: 150px;
+  text-align: right;
+}
+
+.hunger-label {
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.hunger-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #fff;
+}
+
+.hunger-fill {
+  height: 100%;
+  background: #ff6600;
+  width: 100%;
+  transition: width 0.3s linear, background 0.3s;
+}
+
+/* Fish Food Can UI */
+.feed-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 4.5rem;
+  background: linear-gradient(90deg, #bdc3c7, #ecf0f1 40%, #bdc3c7);
+  border: none;
+  border-radius: 0.5rem 0.5rem 1rem 1rem;
+  cursor: pointer;
+  color: transparent;
+  /* Hide text */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+  z-index: 10;
+  /* Bottom Rim */
+  border-bottom: 4px solid #7f8c8d;
+}
+
+/* Can Label */
+.feed-btn::before {
+  content: "YUMMY\A FLAKES";
+  white-space: pre;
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #f39c12;
+  color: #fff;
+  font-family: 'Verdana', sans-serif;
+  font-weight: 900;
+  font-size: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-top: 2px solid #d35400;
+  border-bottom: 2px solid #d35400;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+}
+
+/* Can Lid */
+.feed-btn::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: linear-gradient(#ecf0f1, #bdc3c7);
+  border-radius: 50%;
+  border: 1px solid #7f8c8d;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+.feed-btn:active {
+  transform: translateY(4px) scale(0.98);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.food-flake {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #8B4513;
+  top: 10%;
+  left: 50%;
+  border-radius: 50%;
+  animation: fall 2s linear forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(15rem) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.fishbowl__pool {
+  position: absolute;
+  right: 0;
+  bottom: -5%;
+  width: 50%;
+  height: 15%;
+  border-radius: 50%;
+  background: linear-gradient(#FFF -100%, #419197);
+  opacity: 0.5;
+}
+
+.fishbowl__pool:after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  border-right: 2px solid #FFF;
+  border-radius: 50%;
+  animation: wave;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  opacity: 0.5;
+}
+
+@keyframes wave {
+  from {
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+  }
+
+  to {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+  }
+}
+
+.fishbowl__tap {
+  position: absolute;
+  bottom: 0;
+  left: -3rem;
+  width: 12rem;
+  height: 15.9rem;
+  cursor: pointer;
+}
+
+.fishbowl__tap--active .fishbowl__tap-stream {
+  animation: stream;
+  animation-duration: 0.5s;
+}
+
+@keyframes stream {
+  0% {
+    height: 0;
+  }
+
+  50% {
+    top: 2rem;
+    height: calc(14rem - var(--filling) * 0.1rem);
+  }
+
+  100% {
+    top: calc(2rem + 14rem - var(--filling) * 0.1rem);
+    height: 0;
+  }
+}
+
+.fishbowl__tap--active .fishbowl__tap-handle {
+  animation: handle;
+  animation-duration: 0.5s;
+}
+
+@keyframes handle {
+  from {
+    transform: rotate(45deg);
+  }
+
+  to {
+    transform: rotate(405deg);
+  }
+}
+
+.fishbowl__tap-base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2rem;
+  height: 14rem;
+  border-radius: 0 0 1.2rem 1.2rem;
+  box-shadow: inset -1px -1px 0 0px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(#919ea3, #66777F 150%);
+}
+
+.fishbowl__tap-base:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 4rem;
+  right: 15rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: -4rem 10rem 1rem 0 rgba(0, 0, 56, 0.3);
+  transform: rotate(-70deg);
+}
+
+.fishbowl__tap-base:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4) 60%, transparent 200%);
+  border-radius: 0 0 1.2rem 1.2rem;
+}
+
+.fishbowl__tap-handle {
+  position: absolute;
+  left: -1rem;
+  bottom: 6rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.2rem;
+  border-top: 1px solid #FFF;
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  background: radial-gradient(circle at 0 0, #FFF -100%, #919ea3);
+  transform: rotate(45deg);
+}
+
+.fishbowl__tap-handle:after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 0 0, #FFF -200%, #419197);
+}
+
+.fishbowl__tap-stream {
+  position: absolute;
+  top: 2rem;
+  left: 6.25rem;
+  width: 1.5rem;
+  height: 0;
+  background: linear-gradient(#FFF -100%, #419197);
+  border-radius: 1rem;
+  opacity: 0.3;
+}
+
+.fishbowl__tap-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 0rem;
+  border-radius: 50% 50% 0 0;
+  border-top: 2rem solid #919ea3;
+  border-left: 2rem solid #919ea3;
+  border-right: 2rem solid #919ea3;
+  box-shadow: 1px -1px 0 0 #FFF;
+}
+
+.fishbowl__tap-head:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 3rem;
+  right: 23rem;
+  width: 150%;
+  height: 200%;
+  box-shadow: -4rem 10rem 1rem 1rem rgba(0, 0, 56, 0.3);
+  transform: rotate(2deg) skewX(60deg);
+}
+
+.fishbowl__tap-head:after {
+  content: "";
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 8rem;
+  height: 2rem;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.4) 60%, transparent 200%);
+  border-radius: 50% 50% 0 50%;
+}
+
+.fishbowl__tap-end {
+  position: absolute;
+  left: 6rem;
+  top: 1.5rem;
+  width: 2rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: linear-gradient(#FFF -70%, #919ea3);
+}
+
+.fishbowl__tap-text {
+  position: absolute;
+  top: 4rem;
+  left: -6rem;
+  color: #FFF;
+  font-family: "Arial", sans-serif;
+  font-size: 0.875rem;
+}
+
+.fishbowl__tap-text:after {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  right: -1rem;
+  width: 2rem;
+  height: 1px;
+  background-color: #FFF;
+  transform: rotate(45deg);
+}
+
+@media screen and (max-width: 420px) {
+  .fishbowl {
+    left: 13%;
+  }
+
+  .fishbowl__tap-text {
+    width: 2rem;
+    top: 1rem;
+    left: -3.5rem;
+  }
+}
+
+/* Bubble Animation */
+.bubble {
+  position: absolute;
+  bottom: 20%;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: rise 3s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(-8rem) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.score {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.game-over {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.game-over.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game-over__content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.game-over.hidden .game-over__content {
+  transform: translateY(-50px);
+}
+
+.game-over h2 {
+  color: #419197;
+  margin-top: 0;
+}
+
+.restart-btn {
+  background: #ff7d66;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.restart-btn:hover {
+  background: #ff5f40;
+  transform: scale(1.05);
+}
+
+/* Game Title */
+.game-title {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  font-family: 'Verdana', sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #419197, 4px 4px 0 rgba(0, 0, 0, 0.2);
+  margin: 0;
+  z-index: 10;
+  transform: rotate(-3deg);
+}
+
+.game-subtitle {
+  position: absolute;
+  top: 4rem;
+  /* Below the title */
+  left: 2.5rem;
+  font-family: 'Verdana', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0;
+  z-index: 10;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  transform: rotate(-3deg);
+}
+
+.music-btn {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #fff;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+  z-index: 20;
+}
+
+.music-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Won State */
+.game-over.won {
+  background: transparent;
+  pointer-events: none;
+  /* Let clicks pass through if needed, though button needs clicks */
+  justify-content: center;
+  align-items: flex-start;
+  /* Align to top */
+  padding-top: 8rem;
+  /* Space from top */
+}
+
+.game-over.won .game-over__content {
+  background: rgba(255, 255, 255, 0.9);
+  pointer-events: auto;
+  /* Re-enable clicks for the button */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.fishbowl--won .fishbowl__pool {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s;
+}
+
+/* External Decorations */
+.table {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  /* Matches fishbowl shadow bottom roughly */
+  background: #5d4037;
+  border-top: 1rem solid #8d6e63;
+  z-index: -1;
+}
+
+.plant-container {
+  position: absolute;
+  bottom: 22%;
+  /* Sit on table */
+  left: 10%;
+  width: 5rem;
+  height: 8rem;
+  z-index: -1;
+}
+
+.plant-pot {
+  position: absolute;
+  bottom: 0;
+  width: 4rem;
+  height: 3rem;
+  background: #e67e22;
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: inset -5px -5px rgba(0, 0, 0, 0.1);
+}
+
+.plant-pot:after {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  left: -0.25rem;
+  width: 4.5rem;
+  height: 1rem;
+  background: #d35400;
+  border-radius: 0.2rem;
+}
+
+.plant-leaf {
+  position: absolute;
+  bottom: 2rem;
+  width: 1.5rem;
+  height: 4rem;
+  background: #2ecc71;
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+}
+
+.plant-leaf--1 {
+  left: 1rem;
+  transform: rotate(-20deg);
+  height: 5rem;
+}
+
+.plant-leaf--2 {
+  left: 1.5rem;
+  transform: rotate(10deg);
+  height: 6rem;
+  background: #27ae60;
+  z-index: 1;
+}
+
+.plant-leaf--3 {
+  left: 2rem;
+  transform: rotate(30deg);
+  height: 4rem;
+}
