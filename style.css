@@ -937,3 +937,100 @@ body {
   transform: rotate(30deg);
   height: 4rem;
 }
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 14px;
+    /* Base font size reduction */
+  }
+
+  .game-title {
+    font-size: 1.8rem;
+    left: 1rem;
+    top: 0.5rem;
+  }
+
+  .game-subtitle {
+    font-size: 0.8rem;
+    left: 1.5rem;
+    top: 2.8rem;
+  }
+
+  .score {
+    font-size: 1.2rem;
+    right: 1rem;
+    top: 0.5rem;
+  }
+
+  .hunger-container {
+    top: 2.5rem;
+    right: 1rem;
+    width: 120px;
+  }
+
+  .fishbowl {
+    transform: scale(0.8);
+    /* Shrink the bowl */
+    margin-top: 2rem;
+    /* Move down slightly to clear title */
+  }
+
+  .feed-btn {
+    width: 3rem;
+    height: 4rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .feed-btn::before {
+    font-size: 0.5rem;
+  }
+
+  .music-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .table {
+    height: 15%;
+    /* Reduce table height */
+  }
+
+  .plant-container {
+    transform: scale(0.7);
+    left: 2%;
+    bottom: 18%;
+  }
+
+  /* Adjust tap text on mobile */
+  .fishbowl__tap-text {
+    font-size: 0.7rem;
+    width: 4rem;
+    left: -5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .fishbowl {
+    transform: scale(0.65);
+    left: 10%;
+    /* Center adjustment */
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+  }
+
+  .feed-btn {
+    bottom: 5rem;
+    /* Move up to avoid bottom safe areas/thumbs */
+  }
+
+  .music-btn {
+    bottom: 5rem;
+  }
+}
